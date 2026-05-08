@@ -5,6 +5,12 @@ import br.com.hamburgueria.cardapio.fabricas.CardapioClassico;
 import br.com.hamburgueria.cardapio.fabricas.CardapioFactory;
 import br.com.hamburgueria.cardapio.fabricas.CardapioFit;
 import br.com.hamburgueria.cardapio.fabricas.CardapioGourmet;
+import br.com.hamburgueria.cardapio.ingredientes.adicionais.BaconExtra;
+import br.com.hamburgueria.cardapio.ingredientes.adicionais.QueijoExtra;
+import br.com.hamburgueria.notificacao.ObservadorPedido;
+import br.com.hamburgueria.pagamento.ProcessadorPagamento;
+import br.com.hamburgueria.pagamento.estrategia.PagamentoPix;
+import br.com.hamburgueria.pedido.Pedido;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,5 +40,54 @@ class HamburgueriaTest {
         assertTrue(lanche.getDescricao().contains("picanha"));
         assertTrue(lanche.getDescricao().contains("mal passado"));
         assertTrue(lanche.getPreco() > 0);
+    }
+
+    @Test
+    void deveAdicionarIngredientesExtrasComDecorator() {
+        ItemCardapio lanche = CardapioClassico.getInstancia().criarLanchePrincipal();
+        double precoOriginal = lanche.getPreco();
+
+        lanche = new QueijoExtra(new BaconExtra(lanche));
+
+        assertTrue(lanche.getDescricao().contains("queijo extra"));
+        assertTrue(lanche.getDescricao().contains("bacon extra"));
+        assertEquals(precoOriginal + 7.5, lanche.getPreco(), 0.01);
+    }
+
+    @Test
+    void deveAlterarEstadoDoPedido() {
+        Pedido pedido = new Pedido("PED-001");
+
+        assertEquals("Recebido", pedido.getEstadoAtual());
+
+        pedido.avancar();
+        assertEquals("Em preparo", pedido.getEstadoAtual());
+
+        pedido.avancar();
+        assertEquals("Pronto", pedido.getEstadoAtual());
+    }
+
+    @Test
+    void deveNotificarObservadoresQuandoEstadoMuda() {
+        Pedido pedido = new Pedido("PED-002");
+        final int[] quantidadeNotificacoes = {0};
+
+        ObservadorPedido observador = p -> quantidadeNotificacoes[0]++;
+        pedido.adicionarObservador(observador);
+
+        pedido.avancar();
+        pedido.avancar();
+
+        assertEquals(2, quantidadeNotificacoes[0]);
+    }
+
+    @Test
+    void deveUsarStrategyParaCalcularPagamento() {
+        Pedido pedido = new Pedido("PED-003");
+        pedido.adicionarItem(CardapioFit.getInstancia().criarLanchePrincipal());
+
+        ProcessadorPagamento pagamento = new ProcessadorPagamento(new PagamentoPix());
+
+        assertEquals(pedido.calcularTotal() * 0.90, pagamento.pagar(pedido), 0.01);
     }
 }
