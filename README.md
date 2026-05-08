@@ -6,6 +6,10 @@ Este projeto demonstra a implementação combinada dos padrões criacionais **Ab
 
 A interface `CardapioFactory` define o contrato para criação de lanches, enquanto cada implementação concreta (`CardapioClassico`, `CardapioFit`, `CardapioGourmet`) é gerenciada como Singleton. O padrão Bridge separa a hierarquia de `Proteina` da hierarquia de `GrauCoccao`, permitindo que ambas variem de forma independente.
 
+## Diagrama de Estado:
+
+<img width="3451" height="6136" alt="Image" src="https://github.com/user-attachments/assets/e0778815-05a7-4de5-a736-18b0e947e6c2" />
+
 ## Estrutura
 
 | Classe / Interface | Papel |
