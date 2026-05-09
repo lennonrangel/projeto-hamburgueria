@@ -1,54 +1,72 @@
-# Padrões de Projeto: Abstract Factory + Singleton + Bridge
+# Projeto Hamburgueria - Padrões de Projeto
 
-Projeto desenvolvido para a disciplina de **Arquitetura e Projeto de Software**.
+Este projeto foi desenvolvido para a disciplina de **Arquitetura e Projeto de Software**, com o objetivo de demonstrar a aplicação prática de diversos padrões de projeto (Design Patterns) em um sistema de gerenciamento de uma hamburgueria.
 
-Este projeto demonstra a implementação combinada dos padrões criacionais **Abstract Factory** e **Singleton**, aliados ao padrão estrutural **Bridge**, aplicados para modelar o **cardápio de uma hamburgueria**.
+O sistema abrange desde a criação do cardápio e montagem de lanches até o processamento de pedidos, notificações e pagamentos, utilizando padrões criacionais, estruturais e comportamentais.
 
-A interface `CardapioFactory` define o contrato para criação de lanches, enquanto cada implementação concreta (`CardapioClassico`, `CardapioFit`, `CardapioGourmet`) é gerenciada como Singleton. O padrão Bridge separa a hierarquia de `Proteina` da hierarquia de `GrauCoccao`, permitindo que ambas variem de forma independente.
+## Padrões de Projeto Implementados
 
-## Diagrama de Estado:
+O projeto utiliza **13 padrões de projeto** do GoF (Gang of Four):
 
-<img width="3451" height="6136" alt="Image" src="https://github.com/user-attachments/assets/e0778815-05a7-4de5-a736-18b0e947e6c2" />
+### 1. Padrões Criacionais
 
-## Estrutura
-
-| Classe / Interface | Papel |
+| Padrão | Descrição no Projeto |
 |---|---|
-| `CardapioFactory` | Interface da fábrica abstrata — define o contrato de criação |
-| `CardapioClassico` | Fábrica concreta Singleton — cria lanches da linha Clássica |
-| `CardapioFit` | Fábrica concreta Singleton — cria lanches da linha Fit |
-| `CardapioGourmet` | Fábrica concreta Singleton — cria lanches da linha Gourmet |
-| `ItemCardapio` | Interface do produto — define `getDescricao()` e `getPreco()` |
-| `Lanche` | Produto concreto — implementa `ItemCardapio`, compõe `Proteina` |
-| `Proteina` | Classe abstrata (Bridge) — delega o grau de cocção via `GrauCoccao` |
-| `ProteinaSmash` | Implementação concreta — preço base R$ 14,00 |
-| `ProteinaFrango` | Implementação concreta — preço base R$ 12,00 |
-| `ProteinaPicanha` | Implementação concreta — preço base R$ 18,00 |
-| `GrauCoccao` | Interface do Bridge — define `getDescricao()` e `getAdicionalPreco()` |
-| `AoPonto` | Implementação concreta — adicional R$ 0,00 |
-| `BemPassado` | Implementação concreta — adicional R$ 1,00 |
-| `MalPassado` | Implementação concreta — adicional R$ 0,00 |
+| **Abstract Factory** | A interface `CardapioFactory` e suas implementações (`CardapioClassico`, `CardapioFit`, `CardapioGourmet`) definem famílias de produtos relacionados (lanches e ingredientes). |
+| **Singleton** | As fábricas de cardápio são implementadas como Singletons para garantir uma única instância global de cada tipo de cardápio. |
+| **Builder** | O `LancheBuilder` e `MontadorLanche` permitem a construção passo a passo de lanches complexos, separando a construção da representação final. |
 
-## Funcionamento
+### 2. Padrões Estruturais
 
-A `CardapioFactory` expõe dois métodos de criação: `criarLanchePrincipal()` e `criarLancheEspecial()`. Cada fábrica instancia um `Lanche` com proteína e pão específicos da sua linha:
+| Padrão | Descrição no Projeto |
+|---|---|
+| **Bridge** | Separa a abstração `Proteina` de sua implementação `GrauCoccao`, permitindo que ambas variem de forma independente. |
+| **Decorator** | O `IngredienteDecorator` permite adicionar funcionalidades (ingredientes extras como `BaconExtra`, `QueijoExtra`) a um `ItemCardapio` de forma dinâmica. |
+| **Composite** | A classe `Combo` permite tratar itens individuais e grupos de itens (combos) de forma uniforme, ambos implementando a interface `ItemCardapio`. |
+| **Facade** | O `SistemaHamburgueria` oferece uma interface simplificada para as funcionalidades complexas do sistema, como abrir pedidos e processar pagamentos. |
 
-- **CardapioClassico** → `ProteinaSmash` com `AoPonto` (principal) ou `BemPassado` (especial)
-- **CardapioFit** → `ProteinaFrango` com `BemPassado` (principal) ou `AoPonto` (especial)
-- **CardapioGourmet** → `ProteinaPicanha` com `MalPassado` (principal) ou `AoPonto` (especial)
+### 3. Padrões Comportamentais
 
-O preço final de um `Lanche` é calculado como:
+| Padrão | Descrição no Projeto |
+|---|---|
+| **Mediator** | A `CentralHamburgueria` atua como mediadora na comunicação entre o `Atendente`, o `Caixa` e os processos internos, reduzindo o acoplamento. |
+| **Observer** | O `Pedido` atua como sujeito, notificando observadores como `ClienteNotificador` e `CozinhaNotificador` sobre mudanças em seu estado. |
+| **Strategy** | As diferentes formas de pagamento (`PagamentoPix`, `PagamentoCartao`, `PagamentoDinheiro`) são encapsuladas como estratégias que podem ser trocadas em tempo de execução. |
+| **Chain of Responsibility** | O sistema de descontos (`DescontoPedido`) utiliza uma corrente de responsabilidade para aplicar múltiplas regras de desconto de forma sequencial. |
+| **State** | O estado do pedido (`EstadoPedido`) é gerenciado de forma que o comportamento do objeto mude conforme seu estado transita (ex: `PedidoRecebido` para `PedidoEmPreparo`). |
+| **Template Method** | O `PreparoPedidoTemplate` define o esqueleto do algoritmo de preparo, permitindo que subclasses customizem etapas específicas (como `prepararLanche`). |
 
+## Diagrama de Estado
+O fluxo de estados de um pedido é representado pelo seguinte diagrama:
+
+<div align="center">
+  <img width="600" height="878" alt="Image" src="https://github.com/user-attachments/assets/81995b5e-75ee-4075-b987-2cbf6b83325a" />
+</div>
+  
+## Diagrama de Classes
+
+Ilustra a arquitetura do sistema, destacando a integração dos 15 padrões de projeto e as relações de dependência entre as fábricas, produtos e o processamento de pedidos.
+
+<img width="14828" height="8054" alt="Image" src="https://github.com/user-attachments/assets/24d5699f-6c53-4a19-88f8-e5e041b88d8f" />
+
+## Estrutura do Projeto
+
+O código está organizado nos seguintes pacotes:
+
+- `atendimento`: Contém a lógica de mediação e os atores do sistema (Atendente, Caixa).
+- `cardapio`: Define os itens, fábricas, construtores e decoradores de ingredientes.
+- `notificacao`: Implementa o padrão Observer para alertas de sistema.
+- `pagamento`: Gerencia as estratégias de pagamento e a cadeia de descontos.
+- `pedido`: Contém a entidade principal, o gerenciamento de estados e o template de preparo.
+
+## Como Executar
+
+O projeto é baseado em **Maven** e requer o Java 21 ou superior.
+
+1.  Clone o repositório.
+2.  Abra o projeto em sua IDE (recomendado IntelliJ IDEA).
+3.  Execute os testes unitários em `src/test/java/br/com/hamburgueria/HamburgueriaTest.java` para validar todas as implementações e fluxos.
+
+```bash
+mvn test
 ```
-precoFinal = precoBase (Lanche) + precoBase (Proteina) + adicional (GrauCoccao)
-```
-
-Isso evita estruturas como:
-- `if (linha == "classica") criarSmashAoPonto()`
-- `else if (linha == "fit") criarFrangoFit()`
-
-## Como executar
-
-Abrir o projeto no IntelliJ como um projeto Maven e executar os testes localizados em:
-
-- `HamburgueriaTest`
