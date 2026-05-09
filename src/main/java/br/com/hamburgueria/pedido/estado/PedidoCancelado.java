@@ -11,11 +11,11 @@ public class PedidoCancelado implements EstadoPedido {
 
     @Override
     public void cancelar(Pedido pedido) {
-        throw new IllegalStateException("Pedido ja esta cancelado.");
+        // Já está cancelado
     }
 
     @Override
     public String getNome() {
-        return "Cancelado";
+        return "Cancelado (Estado Final)";
     }
 }
