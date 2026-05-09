@@ -6,13 +6,14 @@ O sistema abrange desde a criação do cardápio e montagem de lanches até o pr
 
 ## Padrões de Projeto Implementados
 
-O projeto utiliza **13 padrões de projeto** do GoF (Gang of Four):
+O projeto utiliza **14 padrões de projeto** do GoF (Gang of Four):
 
 ### 1. Padrões Criacionais
 
 | Padrão | Descrição no Projeto |
 |---|---|
 | **Abstract Factory** | A interface `CardapioFactory` e suas implementações (`CardapioClassico`, `CardapioFit`, `CardapioGourmet`) definem famílias de produtos relacionados (lanches e ingredientes). |
+| **Factory Method** | Os métodos `criarLanchePrincipal` e `criarLancheEspecial` na interface `CardapioFactory` permitem que as subclasses decidam qual lanche específico instanciar. |
 | **Singleton** | As fábricas de cardápio são implementadas como Singletons para garantir uma única instância global de cada tipo de cardápio. |
 | **Builder** | O `LancheBuilder` e `MontadorLanche` permitem a construção passo a passo de lanches complexos, separando a construção da representação final. |
 
@@ -45,7 +46,7 @@ O fluxo de estados de um pedido é representado pelo seguinte diagrama:
   
 ## Diagrama de Classes
 
-Ilustra a arquitetura do sistema, destacando a integração dos 15 padrões de projeto e as relações de dependência entre as fábricas, produtos e o processamento de pedidos.
+Ilustra a arquitetura do sistema, destacando a integração dos 14 padrões de projeto e as relações de dependência entre as fábricas, produtos e o processamento de pedidos.
 
 <img width="14828" height="8054" alt="Image" src="https://github.com/user-attachments/assets/24d5699f-6c53-4a19-88f8-e5e041b88d8f" />
 
@@ -66,7 +67,3 @@ O projeto é baseado em **Maven** e requer o Java 21 ou superior.
 1.  Clone o repositório.
 2.  Abra o projeto em sua IDE (recomendado IntelliJ IDEA).
 3.  Execute os testes unitários em `src/test/java/br/com/hamburgueria/HamburgueriaTest.java` para validar todas as implementações e fluxos.
-
-```bash
-mvn test
-```
