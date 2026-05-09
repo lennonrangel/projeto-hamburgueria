@@ -2,6 +2,7 @@ package br.com.hamburgueria;
 
 import br.com.hamburgueria.atendimento.Atendente;
 import br.com.hamburgueria.atendimento.CentralHamburgueria;
+import br.com.hamburgueria.cardapio.Combo;
 import br.com.hamburgueria.cardapio.ItemCardapio;
 import br.com.hamburgueria.cardapio.fabricas.CardapioClassico;
 import br.com.hamburgueria.cardapio.fabricas.CardapioFactory;
@@ -12,10 +13,12 @@ import br.com.hamburgueria.cardapio.ingredientes.adicionais.QueijoExtra;
 import br.com.hamburgueria.cardapio.ingredientes.proteinas.AoPonto;
 import br.com.hamburgueria.cardapio.ingredientes.proteinas.ProteinaSmash;
 import br.com.hamburgueria.cardapio.montagem.MontadorLanche;
+import br.com.hamburgueria.fachada.HamburgueriaFacade;
 import br.com.hamburgueria.notificacao.ObservadorPedido;
 import br.com.hamburgueria.pagamento.ProcessadorPagamento;
 import br.com.hamburgueria.pagamento.desconto.DescontoPedidoGrande;
 import br.com.hamburgueria.pagamento.desconto.DescontoRetiradaBalcao;
+import br.com.hamburgueria.pagamento.desconto.SemDesconto;
 import br.com.hamburgueria.pagamento.estrategia.PagamentoPix;
 import br.com.hamburgueria.pedido.Pedido;
 import br.com.hamburgueria.pedido.preparo.PreparoGourmet;
@@ -150,4 +153,37 @@ class HamburgueriaTest {
 
         assertEquals("Pronto", pedido.getEstadoAtual());
     }
+
+    @Test
+    void deveUsarCompositeParaMontarCombo() {
+        ItemCardapio lanchePrincipal = CardapioClassico.getInstancia().criarLanchePrincipal();
+        ItemCardapio lancheEspecial = CardapioClassico.getInstancia().criarLancheEspecial();
+
+        Combo combo = new Combo("Combo Clássico");
+        combo.adicionarItem(lanchePrincipal);
+        combo.adicionarItem(lancheEspecial);
+
+        assertTrue(combo.getDescricao().contains("Combo Clássico"));
+        assertEquals(lanchePrincipal.getPreco() + lancheEspecial.getPreco(), combo.getPreco(), 0.01);
+        assertEquals(2, combo.getItens().size());
+    }
+
+    @Test
+    void deveUsarFacadeParaSimplificarAtendimento() {
+        HamburgueriaFacade hamburgueria = new HamburgueriaFacade();
+        ItemCardapio lanche = CardapioFit.getInstancia().criarLanchePrincipal();
+
+        Pedido pedido = hamburgueria.abrirPedido("PED-007", lanche, false);
+        double valorFinal = hamburgueria.prepararEPagar(
+                pedido,
+                new PreparoGourmet(),
+                new PagamentoPix(),
+                new SemDesconto()
+        );
+
+        assertEquals("Pronto", pedido.getEstadoAtual());
+        assertEquals(1, hamburgueria.getCentral().getPedidos().size());
+        assertTrue(valorFinal > 0);
+    }
+
 }
