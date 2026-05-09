@@ -1,8 +1,5 @@
 package br.com.hamburgueria.atendimento;
 
-import br.com.hamburgueria.atendimento.Atendente;
-import br.com.hamburgueria.atendimento.Caixa;
-import br.com.hamburgueria.atendimento.CentralHamburgueria;
 import br.com.hamburgueria.cardapio.ItemCardapio;
 import br.com.hamburgueria.notificacao.ClienteNotificador;
 import br.com.hamburgueria.notificacao.CozinhaNotificador;

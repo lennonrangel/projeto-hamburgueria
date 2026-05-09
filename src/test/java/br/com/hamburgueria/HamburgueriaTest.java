@@ -2,6 +2,7 @@ package br.com.hamburgueria;
 
 import br.com.hamburgueria.atendimento.Atendente;
 import br.com.hamburgueria.atendimento.CentralHamburgueria;
+import br.com.hamburgueria.atendimento.SistemaHamburgueria;
 import br.com.hamburgueria.cardapio.Combo;
 import br.com.hamburgueria.cardapio.ItemCardapio;
 import br.com.hamburgueria.cardapio.fabricas.CardapioClassico;
@@ -13,7 +14,6 @@ import br.com.hamburgueria.cardapio.ingredientes.adicionais.QueijoExtra;
 import br.com.hamburgueria.cardapio.ingredientes.proteinas.AoPonto;
 import br.com.hamburgueria.cardapio.ingredientes.proteinas.ProteinaSmash;
 import br.com.hamburgueria.cardapio.montagem.MontadorLanche;
-import br.com.hamburgueria.fachada.HamburgueriaFacade;
 import br.com.hamburgueria.notificacao.ObservadorPedido;
 import br.com.hamburgueria.pagamento.ProcessadorPagamento;
 import br.com.hamburgueria.pagamento.desconto.DescontoPedidoGrande;
@@ -170,7 +170,7 @@ class HamburgueriaTest {
 
     @Test
     void deveUsarFacadeParaSimplificarAtendimento() {
-        HamburgueriaFacade hamburgueria = new HamburgueriaFacade();
+        SistemaHamburgueria hamburgueria = new SistemaHamburgueria();
         ItemCardapio lanche = CardapioFit.getInstancia().criarLanchePrincipal();
 
         Pedido pedido = hamburgueria.abrirPedido("PED-007", lanche, false);
