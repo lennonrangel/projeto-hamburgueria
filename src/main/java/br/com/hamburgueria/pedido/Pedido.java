@@ -15,6 +15,7 @@ public class Pedido {
     private final List<ItemCardapio> itens = new ArrayList<>();
     private final List<ObservadorPedido> observadores = new ArrayList<>();
     private EstadoPedido estado;
+    private boolean retiradaBalcao;
 
     public Pedido(String codigo) {
         this.codigo = codigo;
@@ -40,6 +41,14 @@ public class Pedido {
     public void setEstado(EstadoPedido estado) {
         this.estado = estado;
         notificarObservadores();
+    }
+
+    public void marcarRetiradaBalcao() {
+        this.retiradaBalcao = true;
+    }
+
+    public boolean isRetiradaBalcao() {
+        return retiradaBalcao;
     }
 
     public double calcularTotal() {
