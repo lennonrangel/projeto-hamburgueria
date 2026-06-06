@@ -6,7 +6,7 @@ O sistema abrange desde a criação do cardápio e montagem de hamburgueres até
 
 ## Padrões de Projeto Implementados
 
-O projeto utiliza **19 padrões de projeto** do GoF (Gang of Four):
+O projeto utiliza **23 padrões de projeto** do GoF (Gang of Four):
 
 ### 1. Padrões Criacionais
 
@@ -23,16 +23,20 @@ O projeto utiliza **19 padrões de projeto** do GoF (Gang of Four):
 | Padrão | Descrição no Projeto |
 |---|---|
 | **Bridge** | Separa a abstração `Proteina` de sua implementação `GrauCoccao`, permitindo que ambas variem de forma independente. |
+| **Adapter** | O `IngredientePesadoAdapter` adapta um ingrediente externo vendido por peso para a interface interna `ItemCardapio`. |
 | **Decorator** | O `Complemento` permite adicionar funcionalidades (ingredientes extras como `Bacon`, `Molho`, `Salada`, `OnionRings`, `Picles`) a um `ItemCardapio` de forma dinâmica. |
 | **Composite** | A classe `RefeicaoCompleta` permite tratar itens individuais e grupos de itens (combos) de forma uniforme, ambos implementando a interface `ItemCardapio`. |
 | **Facade** | O `GestorPedidos` oferece uma interface simplificada para as funcionalidades complexas do sistema, como abrir pedidos e processar pagamentos. |
 | **Flyweight** | A `IngredienteFactory` reutiliza instâncias compartilhadas de ingredientes recorrentes, separando dados intrínsecos do ingrediente do estado externo, como quantidade em estoque. |
+| **Proxy** | O `RelatorioFinanceiroProxy` controla o acesso ao relatório financeiro, liberando a consulta somente para usuários com perfil de gerente. |
 
 ### 3. Padrões Comportamentais
 
 | Padrão | Descrição no Projeto |
 |---|---|
 | **Mediator** | A `CentralHamburgueria` atua como mediadora na comunicação entre o `Atendente`, o `Caixa` e os processos internos, reduzindo o acoplamento. |
+| **Command** | Os comandos `AdicionarItemCommand` e `RemoverItemCommand` encapsulam ações sobre um pedido e permitem desfazer a última operação. |
+| **Interpreter** | As expressões de cupom (`ExpressaoRetiradaBalcao`, `ExpressaoTotalMaiorQue`, `ExpressaoE`) interpretam regras simples para decidir se um desconto deve ser aplicado. |
 | **Observer** | O `Pedido` atua como sujeito, notificando observadores como `ClienteNotificador` e `CozinhaNotificador` sobre mudanças em seu estado. |
 | **Strategy** | As diferentes formas de pagamento (`PagamentoPix`, `PagamentoCartao`, `PagamentoDinheiro`) são encapsuladas como estratégias que podem ser trocadas em tempo de execução. |
 | **Chain of Responsibility** | O sistema de descontos (`DescontoPedido`) utiliza uma corrente de responsabilidade para aplicar múltiplas regras de desconto de forma sequencial. |
@@ -53,7 +57,7 @@ O fluxo de estados de um pedido é representado pelo seguinte diagrama:
 
 Ilustra a arquitetura do sistema, destacando a integração dos 19 padrões de projeto e as relações de dependência entre as fábricas, produtos e o processamento de pedidos.
 
-<img width="2663" height="1525" alt="Image" src="https://github.com/user-attachments/assets/e8ce50c1-6b84-4de8-ac99-98de57daa4fc" />
+<img width="9963" height="9308" alt="Image" src="https://github.com/user-attachments/assets/0d6dca2e-d5c6-4c53-9c50-50428cb5e6c1" />
 
 ## Estrutura do Projeto
 
@@ -61,8 +65,8 @@ O código está organizado nos seguintes pacotes:
 
 - `hamburgueria`: Classe principal de execução.
 - `padroescriacao`: Implementações de Abstract Factory, Builder, Factory Method, Prototype e Singleton.
-- `padroesestruturais`: Implementações de Bridge, Composite, Decorator, Facade e Flyweight.
-- `padroescomportamentais`: Implementações de Chain of Responsibility, Iterator, Mediator, Memento, Observer, State, Strategy, Template Method e Visitor.
+- `padroesestruturais`: Implementações de Adapter, Bridge, Composite, Decorator, Facade, Flyweight e Proxy.
+- `padroescomportamentais`: Implementações de Chain of Responsibility, Command, Interpreter, Iterator, Mediator, Memento, Observer, State, Strategy, Template Method e Visitor.
 
 ## Como Executar
 
