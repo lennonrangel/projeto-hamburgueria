@@ -18,6 +18,7 @@ class IngredienteFactoryTest {
     @DisplayName("Deve reutilizar ingrediente compartilhado")
     void deveReutilizarIngredienteCompartilhado() {
         imprimirSeparador("Reutilização de Ingredientes");
+        System.out.println();
 
         IngredienteFactory factory = new IngredienteFactory();
         IngredienteCompartilhado cheddarPedido = factory.getIngrediente("Cheddar", "Queijo", 3.0);
@@ -33,6 +34,7 @@ class IngredienteFactoryTest {
     @DisplayName("Deve manter estado externo fora do flyweight")
     void deveManterEstadoExternoForaDoFlyweight() {
         imprimirSeparador("Estado Externo do Estoque");
+        System.out.println();
 
         IngredienteFactory factory = new IngredienteFactory();
         IngredienteCompartilhado bacon = factory.getIngrediente("Bacon", "Adicional", 4.0);

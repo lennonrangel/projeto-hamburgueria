@@ -22,6 +22,7 @@ class ReceitaHamburguerPrototypeTest {
     @DisplayName("Deve clonar receita base de hambúrguer")
     void deveClonarReceitaBase() {
         imprimirSeparador("Clonagem de Receita Base");
+        System.out.println();
 
         ReceitaHamburguerPrototype receitaBase = new ReceitaHamburguerPrototype(
                 "Smash da Casa",
@@ -44,6 +45,7 @@ class ReceitaHamburguerPrototypeTest {
     @DisplayName("Deve customizar clone sem alterar receita original")
     void deveCustomizarCloneSemAlterarOriginal() {
         imprimirSeparador("Customização Independente");
+        System.out.println();
 
         ReceitaHamburguerPrototype receitaBase = new ReceitaHamburguerPrototype(
                 "Burger Especial",

@@ -22,7 +22,7 @@ class CardapioTest {
     @DisplayName("Deve percorrer itens do cardápio")
     void devePercorrerItensDoCardapio() {
         imprimirSeparador("Percorrendo Cardápio");
-
+        System.out.println();
         Cardapio cardapio = new Cardapio();
         cardapio.adicionarItem(ClassicoFactory.getInstancia().criarHamburguerPrincipal());
         cardapio.adicionarItem(FitFactory.getInstancia().criarHamburguerPrincipal());
@@ -47,7 +47,7 @@ class CardapioTest {
     @DisplayName("Deve retornar nulo ao finalizar iteração")
     void deveRetornarNuloAoFinalizarIteracao() {
         imprimirSeparador("Fim da Iteração");
-
+        System.out.println();
         Cardapio cardapio = new Cardapio();
         cardapio.adicionarItem(new Hamburguer("Burger Teste", 10.0));
 
