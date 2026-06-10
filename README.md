@@ -57,7 +57,7 @@ O fluxo de estados de um pedido é representado pelo seguinte diagrama:
 
 Ilustra a arquitetura do sistema, destacando a integração dos 19 padrões de projeto e as relações de dependência entre as fábricas, produtos e o processamento de pedidos.
 
-<img width="9963" height="9308" alt="Image" src="https://github.com/user-attachments/assets/0d6dca2e-d5c6-4c53-9c50-50428cb5e6c1" />
+<img width="7089" height="6036" alt="Image" src="https://github.com/user-attachments/assets/58b1be83-acd6-4afc-bc4e-e1acea40199e" />
 
 ## Estrutura do Projeto
 
