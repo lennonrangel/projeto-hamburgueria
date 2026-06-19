@@ -1,4 +1,4 @@
-package padroescriacao.singleton;
+package hamburgueria.pedido;
 
 public class GeradorCodigoPedido {
 
@@ -19,7 +19,6 @@ public class GeradorCodigoPedido {
     public synchronized String proximoCodigo() {
         ultimoCodigo++;
         String novoCodigo = String.format("PED-%03d", ultimoCodigo);
-        System.out.println("Código: " + novoCodigo);
         return novoCodigo;
     }
 
