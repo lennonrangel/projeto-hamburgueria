@@ -1,11 +1,10 @@
-package padroescomportamentais.iterator;
+package hamburgueria.cardapio;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import padroescriacao.abstractfactory.ClassicoFactory;
-import padroescriacao.abstractfactory.FitFactory;
-import padroescriacao.abstractfactory.Hamburguer;
-import padroesestruturais.composite.ItemCardapio;
+import hamburgueria.linhaproduto.ClassicoFactory;
+import hamburgueria.linhaproduto.FitFactory;
+import hamburgueria.hamburguer.Hamburguer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,52 +12,63 @@ import static org.junit.jupiter.api.Assertions.*;
 class CardapioTest {
 
     private void imprimirSeparador(String titulo) {
-        System.out.println("\n========================================================");
-        System.out.println(" [ITERATOR] " + titulo);
-        System.out.println("========================================================");
     }
 
     @Test
     @DisplayName("Deve percorrer itens do cardápio")
     void devePercorrerItensDoCardapio() {
         imprimirSeparador("Percorrendo Cardápio");
-        System.out.println();
         Cardapio cardapio = new Cardapio();
         cardapio.adicionarItem(ClassicoFactory.getInstancia().criarHamburguerPrincipal());
         cardapio.adicionarItem(FitFactory.getInstancia().criarHamburguerPrincipal());
 
-        IteradorCardapio iterador = cardapio.criarIterador();
+        IteradorCardapio iterador = cardapio.createIterator();
         int totalItens = 0;
         double totalPreco = 0.0;
 
-        while (iterador.temProximo()) {
-            ItemCardapio item = iterador.proximo();
-            System.out.println(item.getDescricao() + " - R$ " + String.format("%.2f", item.getPreco()));
+        while (iterador.hasMore()) {
+            MenuItem item = iterador.getNext();
             totalItens++;
             totalPreco += item.getPreco();
         }
 
         assertEquals(2, totalItens);
         assertTrue(totalPreco > 0);
-        assertFalse(iterador.temProximo());
+        assertFalse(iterador.hasMore());
     }
 
     @Test
     @DisplayName("Deve retornar nulo ao finalizar iteração")
     void deveRetornarNuloAoFinalizarIteracao() {
         imprimirSeparador("Fim da Iteração");
-        System.out.println();
         Cardapio cardapio = new Cardapio();
         cardapio.adicionarItem(new Hamburguer("Burger Teste", 10.0));
 
-        IteradorCardapio iterador = cardapio.criarIterador();
+        IteradorCardapio iterador = cardapio.createIterator();
         
-        ItemCardapio item1 = iterador.proximo();
-        System.out.println("Primeiro item recuperado: " + (item1 != null ? item1.getDescricao() : "null"));
+        MenuItem item1 = iterador.getNext();
         assertNotNull(item1);
 
-        ItemCardapio item2 = iterador.proximo();
-        System.out.println("Tentativa de recuperar próximo item (esperado null): " + item2);
+        MenuItem item2 = iterador.getNext();
         assertNull(item2);
     }
+
+    @Test
+    @DisplayName("Iterador de cardapio vazio deve retornar falso e nulo")
+    void testIteradorCardapioVazio() {
+        Cardapio cardapio = new Cardapio();
+        IteradorCardapio iterador = cardapio.createIterator();
+        assertFalse(iterador.hasMore());
+        assertNull(iterador.getNext());
+    }
+
+    @Test
+    @DisplayName("Lista de itens do cardapio deve ser imutavel")
+    void testCardapioItensImodificaveis() {
+        Cardapio cardapio = new Cardapio();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            cardapio.getItens().add(new Hamburguer("Tentativa", 15.0));
+        });
+    }
 }
+
