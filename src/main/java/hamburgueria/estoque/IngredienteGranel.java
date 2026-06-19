@@ -1,12 +1,12 @@
-package padroesestruturais.adapter;
+package hamburgueria.estoque;
 
-public class IngredientePesadoExterno {
-
+public class IngredienteGranel {
+    
     private final String nome;
     private final double pesoEmGramas;
     private final double precoPorQuilo;
 
-    public IngredientePesadoExterno(String nome, double pesoEmGramas, double precoPorQuilo) {
+    public IngredienteGranel(String nome, double pesoEmGramas, double precoPorQuilo) {
         this.nome = nome;
         this.pesoEmGramas = pesoEmGramas;
         this.precoPorQuilo = precoPorQuilo;
