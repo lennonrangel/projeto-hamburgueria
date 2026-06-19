@@ -1,6 +1,7 @@
-package padroescriacao.prototype;
+package hamburgueria.hamburguer;
 
-import padroesestruturais.bridge.Proteina;
+import hamburgueria.hamburguer.proteina.Proteina;
+
 
 public class ReceitaHamburguerPrototype implements HamburguerPrototype {
     private String nome;
@@ -17,7 +18,7 @@ public class ReceitaHamburguerPrototype implements HamburguerPrototype {
         this.precoBase = precoBase;
     }
 
-    private ReceitaHamburguerPrototype(ReceitaHamburguerPrototype receita) {
+    protected ReceitaHamburguerPrototype(ReceitaHamburguerPrototype receita) {
         this(receita.nome, receita.tipoPao, receita.tipoQueijo, receita.proteina, receita.precoBase);
     }
 
