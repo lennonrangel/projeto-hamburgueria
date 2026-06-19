@@ -1,10 +1,11 @@
-package padroescriacao.abstractfactory;
+package hamburgueria.linhaproduto;
 
-import padroesestruturais.composite.ItemCardapio;
-import padroescriacao.builder.ReceitaHamburguer;
-import padroescriacao.builder.ChefeCozinha;
-import padroesestruturais.bridge.BemPassado;
-import padroesestruturais.bridge.ProteinaSmash;
+
+import hamburgueria.cardapio.MenuItem;
+import hamburgueria.hamburguer.ReceitaHamburguer;
+import hamburgueria.hamburguer.ChefeCozinha;
+import hamburgueria.hamburguer.ponto.BemPassado;
+import hamburgueria.hamburguer.proteina.ProteinaSmash;
 
 public class ClassicoFactory implements HamburguerFactory {
 
@@ -21,8 +22,7 @@ public class ClassicoFactory implements HamburguerFactory {
     }
 
     @Override
-    public ItemCardapio criarHamburguerPrincipal() {
-        System.out.println("Criando Hamburguer Principal da linha Clássica");
+    public MenuItem criarHamburguerPrincipal() {
         return new ChefeCozinha()
                 .comNome("Clássico da Casa")
                 .comPao("australiano")
@@ -33,8 +33,7 @@ public class ClassicoFactory implements HamburguerFactory {
     }
 
     @Override
-    public ItemCardapio criarHamburguerEspecial() {
-        System.out.println("Criando Hamburguer Especial da linha Clássica");
+    public MenuItem criarHamburguerEspecial() {
         return new ReceitaHamburguer().montarHamburguer("Smash", "australiano", new ProteinaSmash(new BemPassado()), 12.0);
     }
 
@@ -43,3 +42,4 @@ public class ClassicoFactory implements HamburguerFactory {
         return "Clássicos";
     }
 }
+

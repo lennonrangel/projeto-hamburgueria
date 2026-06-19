@@ -1,11 +1,12 @@
-package padroescriacao.abstractfactory;
+package hamburgueria.linhaproduto;
 
-import padroesestruturais.composite.ItemCardapio;
-import padroescriacao.builder.ChefeCozinha;
-import padroescriacao.builder.ReceitaHamburguer;
-import padroesestruturais.bridge.AoPonto;
-import padroesestruturais.bridge.MalPassado;
-import padroesestruturais.bridge.ProteinaPicanha;
+
+import hamburgueria.cardapio.MenuItem;
+import hamburgueria.hamburguer.ChefeCozinha;
+import hamburgueria.hamburguer.ReceitaHamburguer;
+import hamburgueria.hamburguer.ponto.AoPonto;
+import hamburgueria.hamburguer.ponto.MalPassado;
+import hamburgueria.hamburguer.proteina.ProteinaPicanha;
 
 public class GourmetFactory implements HamburguerFactory {
 
@@ -22,8 +23,7 @@ public class GourmetFactory implements HamburguerFactory {
     }
 
     @Override
-    public ItemCardapio criarHamburguerPrincipal() {
-        System.out.println("Criando Hamburguer Principal da linha Gourmet");
+    public MenuItem criarHamburguerPrincipal() {
         return new ChefeCozinha()
                 .comNome("Gourmet da Casa")
                 .comPao("brioche")
@@ -34,9 +34,7 @@ public class GourmetFactory implements HamburguerFactory {
     }
 
     @Override
-    public ItemCardapio criarHamburguerEspecial() {
-        System.out.println();
-        System.out.println("Criando Hamburguer Especial da linha Gourmet");
+    public MenuItem criarHamburguerEspecial() {
         return new ReceitaHamburguer().montarHamburguer("Gourmet Picanha", "brioche", new ProteinaPicanha(new MalPassado()), 16.0);
     }
 
@@ -45,3 +43,4 @@ public class GourmetFactory implements HamburguerFactory {
         return "Gourmet";
     }
 }
+

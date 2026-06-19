@@ -1,11 +1,12 @@
-package padroescriacao.abstractfactory;
+package hamburgueria.linhaproduto;
 
-import padroesestruturais.composite.ItemCardapio;
-import padroescriacao.builder.ReceitaHamburguer;
-import padroescriacao.builder.ChefeCozinha;
-import padroesestruturais.bridge.AoPonto;
-import padroesestruturais.bridge.BemPassado;
-import padroesestruturais.bridge.ProteinaFrango;
+
+import hamburgueria.cardapio.MenuItem;
+import hamburgueria.hamburguer.ReceitaHamburguer;
+import hamburgueria.hamburguer.ChefeCozinha;
+import hamburgueria.hamburguer.ponto.AoPonto;
+import hamburgueria.hamburguer.ponto.BemPassado;
+import hamburgueria.hamburguer.proteina.ProteinaFrango;
 
 public class FitFactory implements HamburguerFactory {
 
@@ -22,8 +23,7 @@ public class FitFactory implements HamburguerFactory {
     }
 
     @Override
-    public ItemCardapio criarHamburguerPrincipal() {
-        System.out.println("Criando Hamburguer Principal da linha Fit");
+    public MenuItem criarHamburguerPrincipal() {
         return new ChefeCozinha()
                 .comNome("Fit da Casa")
                 .comPao("integral")
@@ -34,9 +34,7 @@ public class FitFactory implements HamburguerFactory {
     }
 
     @Override
-    public ItemCardapio criarHamburguerEspecial() {
-        System.out.println();
-        System.out.println("Criando Hamburguer Especial da linha Fit");
+    public MenuItem criarHamburguerEspecial() {
         return new ReceitaHamburguer().montarHamburguer("Fit Frango", "integral", new ProteinaFrango(new AoPonto()), 10.0);
     }
 
@@ -45,3 +43,4 @@ public class FitFactory implements HamburguerFactory {
         return "Fit";
     }
 }
+

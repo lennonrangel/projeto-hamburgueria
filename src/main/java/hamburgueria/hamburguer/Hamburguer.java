@@ -1,9 +1,10 @@
-package padroescriacao.abstractfactory;
+package hamburgueria.hamburguer;
 
-import padroesestruturais.composite.ItemCardapio;
-import padroesestruturais.bridge.Proteina;
+import hamburgueria.hamburguer.proteina.Proteina;
 
-public class Hamburguer implements ItemCardapio {
+import hamburgueria.cardapio.MenuItem;
+
+public class Hamburguer implements MenuItem {
     private final String nome;
     private final String tipoPao;
     private final String tipoQueijo;
@@ -53,3 +54,4 @@ public class Hamburguer implements ItemCardapio {
     }
 
 }
+

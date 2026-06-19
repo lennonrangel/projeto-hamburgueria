@@ -1,6 +1,7 @@
-package padroescriacao.abstractfactory;
+package hamburgueria.linhaproduto;
 
-import padroesestruturais.composite.ItemCardapio;
+import hamburgueria.cardapio.MenuItem;
+import hamburgueria.hamburguer.Hamburguer;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,45 +11,33 @@ import static org.junit.jupiter.api.Assertions.*;
 class HamburguerFactoryTest {
 
     private void imprimirSeparador(String titulo) {
-        System.out.println("\n========================================================");
-        System.out.println(" ABSTRACT FACTORY: " + titulo);
-        System.out.println("========================================================\n");
     }
 
     @Test
     @DisplayName("Deve garantir instância única do Cardápio Clássico")
     void deveInstanciarSingletonCardapioClassico() {
         imprimirSeparador("Instanciação Singleton Clássico");
-        System.out.println("Singleton: Instanciando Cardápio Clássico");
         ClassicoFactory f1 = ClassicoFactory.getInstancia();
         ClassicoFactory f2 = ClassicoFactory.getInstancia();
-        System.out.println("Verificando se as instâncias são idênticas...");
         assertSame(f1, f2);
-        System.out.println("Sucesso: Singleton Clássico garantido.");
     }
 
     @Test
     @DisplayName("Deve garantir instância única do Cardápio Gourmet")
     void deveInstanciarSingletonCardapioGourmet() {
         imprimirSeparador("Instanciação Singleton Gourmet");
-        System.out.println("Singleton: Instanciando Cardápio Gourmet");
         GourmetFactory f1 = GourmetFactory.getInstancia();
         GourmetFactory f2 = GourmetFactory.getInstancia();
-        System.out.println("Verificando se as instâncias são idênticas...");
         assertSame(f1, f2);
-        System.out.println("Sucesso: Singleton Gourmet garantido.");
     }
 
     @Test
     @DisplayName("Deve garantir instância única do Cardápio Fit")
     void deveInstanciarSingletonCardapioFit() {
         imprimirSeparador("Instanciação Singleton Fit");
-        System.out.println("Singleton: Instanciando Cardápio Fit");
         FitFactory f1 = FitFactory.getInstancia();
         FitFactory f2 = FitFactory.getInstancia();
-        System.out.println("Verificando se as instâncias são idênticas...");
         assertSame(f1, f2);
-        System.out.println("Sucesso: Singleton Fit garantido.");
     }
 
     @Test
@@ -56,20 +45,11 @@ class HamburguerFactoryTest {
     void deveCriarHamburgueresPrincipaisComDetalhes() {
         imprimirSeparador("Criação de Hamburgueres Principais");
         
-        System.out.println("--- Criando Hamburguer Clássico ---");
-        System.out.println();
-        ItemCardapio lancheClassicoItem = ClassicoFactory.getInstancia().criarHamburguerPrincipal();
-        System.out.println("Descrição gerada: " + lancheClassicoItem.getDescricao());
+        MenuItem lancheClassicoItem = ClassicoFactory.getInstancia().criarHamburguerPrincipal();
         
-        System.out.println("\n--- Criando Hamburguer Gourmet ---");
-        System.out.println();
-        ItemCardapio lancheGourmetItem = GourmetFactory.getInstancia().criarHamburguerPrincipal();
-        System.out.println("Descrição gerada: " + lancheGourmetItem.getDescricao());
+        MenuItem lancheGourmetItem = GourmetFactory.getInstancia().criarHamburguerPrincipal();
         
-        System.out.println("\n--- Criando Hamburguer Fit ---");
-        System.out.println();
-        ItemCardapio lancheFitItem = FitFactory.getInstancia().criarHamburguerPrincipal();
-        System.out.println("Descrição gerada: " + lancheFitItem.getDescricao());
+        MenuItem lancheFitItem = FitFactory.getInstancia().criarHamburguerPrincipal();
 
         assertNotNull(lancheClassicoItem);
         assertNotNull(lancheGourmetItem);
@@ -99,22 +79,32 @@ class HamburguerFactoryTest {
     void deveCriarHamburgueresEspeciaisDeLinhas() {
         imprimirSeparador("Criação de Hamburgueres Especiais");
         
-        System.out.println("--- Criando Especial Clássico ---");
-        System.out.println();
-        ItemCardapio classico = ClassicoFactory.getInstancia().criarHamburguerEspecial();
-        System.out.println("Descrição: " + classico.getDescricao());
+        MenuItem classico = ClassicoFactory.getInstancia().criarHamburguerEspecial();
         
-        System.out.println("\n--- Criando Especial Gourmet ---");
-        ItemCardapio gourmet = GourmetFactory.getInstancia().criarHamburguerEspecial();
-        System.out.println("Descrição: " + gourmet.getDescricao());
+        MenuItem gourmet = GourmetFactory.getInstancia().criarHamburguerEspecial();
         
-        System.out.println("\n--- Criando Especial Fit ---");
-        ItemCardapio fit = FitFactory.getInstancia().criarHamburguerEspecial();
-        System.out.println("Descrição: " + fit.getDescricao());
+        MenuItem fit = FitFactory.getInstancia().criarHamburguerEspecial();
 
         assertNotNull(classico);
         assertNotNull(gourmet);
         assertNotNull(fit);
         assertTrue(gourmet.getPreco() > classico.getPreco());
     }
+
+    @Test
+    @DisplayName("ClassicoFactory deve criar lanches com proteina bovina classica")
+    void testClassicoFactoryItensTipo() {
+        MenuItem principalItem = ClassicoFactory.getInstancia().criarHamburguerPrincipal();
+        Hamburguer principal = (Hamburguer) principalItem;
+        assertTrue(principal.getProteina().getDescricao().contains("smash burger"));
+    }
+
+    @Test
+    @DisplayName("FitFactory deve criar lanche especial mais caro que principal")
+    void testFitFactoryPrecoEspecialMaiorQuePrincipal() {
+        MenuItem principal = FitFactory.getInstancia().criarHamburguerPrincipal();
+        MenuItem especial = FitFactory.getInstancia().criarHamburguerEspecial();
+        assertTrue(especial.getPreco() > principal.getPreco());
+    }
 }
+
