@@ -1,7 +1,7 @@
-package padroesestruturais.composite;
+package hamburgueria.cardapio;
 
-import padroescriacao.abstractfactory.ClassicoFactory;
-import padroescriacao.abstractfactory.Hamburguer;
+import hamburgueria.linhaproduto.ClassicoFactory;
+import hamburgueria.hamburguer.Hamburguer;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,19 +11,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class RefeicaoCompletaTest {
 
     private RefeicaoCompleta refeicao;
-    private ItemCardapio hamburguerPrincipal;
-    private ItemCardapio hamburguerAcompanhamento;
+    private MenuItem hamburguerPrincipal;
+    private MenuItem hamburguerAcompanhamento;
 
     private void imprimirSeparador(String titulo) {
-        System.out.println("\n========================================================");
-        System.out.println(" [COMPOSITE] " + titulo);
-        System.out.println("========================================================");
     }
 
     private void setup() {
         refeicao = new RefeicaoCompleta("Refeição Especial");
         hamburguerPrincipal = ClassicoFactory.getInstancia().criarHamburguerPrincipal();
-        System.out.println(); // Espaço entre a criação dos itens
         hamburguerAcompanhamento = ClassicoFactory.getInstancia().criarHamburguerEspecial();
     }
 
@@ -31,9 +27,7 @@ class RefeicaoCompletaTest {
     @DisplayName("Deve criar refeição vazia")
     void deveCriarRefeicaoVazia() {
         imprimirSeparador("Criação de Refeição Vazia");
-        System.out.println();
         setup();
-        System.out.println("Descrição: " + refeicao.getDescricao());
         assertTrue(refeicao.getItens().isEmpty());
         assertEquals(0, refeicao.getPreco(), 0.01);
     }
@@ -46,7 +40,6 @@ class RefeicaoCompletaTest {
         setup();
         refeicao.adicionarItem(hamburguerPrincipal);
         refeicao.adicionarItem(hamburguerAcompanhamento);
-        System.out.println("Itens na refeição: " + refeicao.getItens().size());
         assertEquals(2, refeicao.getItens().size());
         assertTrue(refeicao.getItens().contains(hamburguerPrincipal));
         assertTrue(refeicao.getItens().contains(hamburguerAcompanhamento));
@@ -60,7 +53,6 @@ class RefeicaoCompletaTest {
         refeicao.adicionarItem(hamburguerPrincipal);
         refeicao.adicionarItem(hamburguerAcompanhamento);
         double precoEsperado = hamburguerPrincipal.getPreco() + hamburguerAcompanhamento.getPreco();
-        System.out.println("Preço total calculado: R$ " + String.format("%.2f", refeicao.getPreco()));
         assertEquals(precoEsperado, refeicao.getPreco(), 0.01);
     }
 
@@ -71,9 +63,7 @@ class RefeicaoCompletaTest {
         setup();
         refeicao.adicionarItem(hamburguerPrincipal);
         refeicao.adicionarItem(hamburguerAcompanhamento);
-        System.out.println("Itens antes da remoção: " + refeicao.getItens().size());
         refeicao.removerItem(hamburguerPrincipal);
-        System.out.println("Itens após a remoção: " + refeicao.getItens().size());
         assertEquals(1, refeicao.getItens().size());
         assertFalse(refeicao.getItens().contains(hamburguerPrincipal));
     }
@@ -86,7 +76,6 @@ class RefeicaoCompletaTest {
         refeicao.adicionarItem(new Hamburguer("Burger A", 10.0));
         refeicao.adicionarItem(new Hamburguer("Burger B", 5.0));
         String descricao = refeicao.getDescricao();
-        System.out.println("Descrição Hierárquica:\n" + descricao);
         assertTrue(descricao.contains("Refeição Especial"));
         assertTrue(descricao.contains("Burger A"));
         assertTrue(descricao.contains("Burger B"));
@@ -102,8 +91,8 @@ class RefeicaoCompletaTest {
         refeicao.adicionarItem(refeicaoInterna);
         refeicao.adicionarItem(hamburguerAcompanhamento);
         
-        System.out.println("Descrição Final:\n" + refeicao.getDescricao());
         assertEquals(2, refeicao.getItens().size());
         assertTrue(refeicao.getPreco() > 0);
     }
 }
+

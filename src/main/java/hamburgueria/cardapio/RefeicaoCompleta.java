@@ -1,31 +1,31 @@
-package padroesestruturais.composite;
+package hamburgueria.cardapio;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class RefeicaoCompleta implements ItemCardapio {
+public class RefeicaoCompleta implements MenuItem {
 
     private final String nome;
-    private final List<ItemCardapio> itens = new ArrayList<>();
+    private final List<MenuItem> itens = new ArrayList<>();
 
     public RefeicaoCompleta(String nome) {
         this.nome = nome;
     }
 
-    public void adicionar(ItemCardapio item) {
+    public void adicionar(MenuItem item) {
         adicionarItem(item);
     }
 
-    public void adicionarItem(ItemCardapio item) {
+    public void adicionarItem(MenuItem item) {
         itens.add(item);
     }
 
-    public void removerItem(ItemCardapio item) {
+    public void removerItem(MenuItem item) {
         itens.remove(item);
     }
 
-    public List<ItemCardapio> getItens() {
+    public List<MenuItem> getItens() {
         return Collections.unmodifiableList(itens);
     }
 
@@ -47,6 +47,7 @@ public class RefeicaoCompleta implements ItemCardapio {
 
     @Override
     public double getPreco() {
-        return itens.stream().mapToDouble(ItemCardapio::getPreco).sum();
+        return itens.stream().mapToDouble(MenuItem::getPreco).sum();
     }
 }
+
