@@ -1,9 +1,9 @@
-package padroesestruturais.bridge;
+package hamburgueria.hamburguer.ponto;
 
-public class MalPassado implements GrauCoccao {
+public class BemPassado implements GrauCoccao {
     @Override
     public String getDescricao() {
-        return "mal passado";
+        return "bem passado";
     }
 
     @Override

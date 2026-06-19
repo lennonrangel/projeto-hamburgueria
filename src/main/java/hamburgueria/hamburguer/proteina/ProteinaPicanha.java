@@ -1,4 +1,6 @@
-package padroesestruturais.bridge;
+package hamburgueria.hamburguer.proteina;
+
+import hamburgueria.hamburguer.ponto.GrauCoccao;
 
 public class ProteinaPicanha extends Proteina {
 

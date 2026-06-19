@@ -1,4 +1,4 @@
-package padroesestruturais.bridge;
+package hamburgueria.hamburguer.ponto;
 
 public interface GrauCoccao {
     String getDescricao();
