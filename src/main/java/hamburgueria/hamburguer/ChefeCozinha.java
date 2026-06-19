@@ -1,13 +1,13 @@
-package padroescriacao.builder;
+package hamburgueria.hamburguer;
 
-import padroesestruturais.composite.ItemCardapio;
-import padroescriacao.abstractfactory.Hamburguer;
-import padroesestruturais.decorator.Bacon;
-import padroesestruturais.decorator.Molho;
-import padroesestruturais.decorator.Salada;
-import padroesestruturais.decorator.OnionRings;
-import padroesestruturais.decorator.Picles;
-import padroesestruturais.bridge.Proteina;
+import hamburgueria.hamburguer.proteina.Proteina;
+
+import hamburgueria.cardapio.MenuItem;
+import hamburgueria.cardapio.adicional.Bacon;
+import hamburgueria.cardapio.adicional.Molho;
+import hamburgueria.cardapio.adicional.Salada;
+import hamburgueria.cardapio.adicional.OnionRings;
+import hamburgueria.cardapio.adicional.Picles;
 
 public class ChefeCozinha implements MontagemHamburguer {
 
@@ -83,43 +83,34 @@ public class ChefeCozinha implements MontagemHamburguer {
     }
 
     @Override
-    public ItemCardapio montar() {
-        System.out.println("Cozinha: Iniciando montagem do lanche: " + nome);
+    public MenuItem montar() {
         
         if (proteina != null) {
-            System.out.println("• Proteina: " + proteina.getNome());
-            System.out.println("• Ponto da carne: " + proteina.getGrauCoccao().getDescricao());
         }
 
-        ItemCardapio hamburguer = new Hamburguer(nome, tipoPao, tipoQueijo, proteina, precoBase);
+        MenuItem hamburguer = new Hamburguer(nome, tipoPao, tipoQueijo, proteina, precoBase);
 
         if (baconExtra) {
-            System.out.println("• Adicionando Bacon");
             hamburguer = new Bacon(hamburguer);
         }
 
         if (molhoExtra) {
-            System.out.println("• Adicionando Molho");
             hamburguer = new Molho(hamburguer);
         }
 
         if (saladaExtra) {
-            System.out.println("• Adicionando Salada");
             hamburguer = new Salada(hamburguer);
         }
 
         if (piclesExtra) {
-            System.out.println("• Adicionando Picles");
             hamburguer = new Picles(hamburguer);
         }
 
         if (onionRingsExtra) {
-            System.out.println("• Adicionando Onion Rings");
             hamburguer = new OnionRings(hamburguer);
         }
 
-        System.out.println("Cozinha: Lanche " + nome + " finalizado. Valor total: R$ " + String.format("%.2f", hamburguer.getPreco()));
-        System.out.println();
         return hamburguer;
     }
 }
+

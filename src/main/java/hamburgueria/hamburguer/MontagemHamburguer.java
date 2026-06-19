@@ -1,7 +1,8 @@
-package padroescriacao.builder;
+package hamburgueria.hamburguer;
 
-import padroesestruturais.composite.ItemCardapio;
-import padroesestruturais.bridge.Proteina;
+import hamburgueria.hamburguer.proteina.Proteina;
+
+import hamburgueria.cardapio.MenuItem;
 
 public interface MontagemHamburguer {
     MontagemHamburguer comNome(String nome);
@@ -14,5 +15,6 @@ public interface MontagemHamburguer {
     MontagemHamburguer comSalada();
     MontagemHamburguer comOnionRings();
     MontagemHamburguer comPicles();
-    ItemCardapio montar();
+    MenuItem montar();
 }
+

@@ -1,11 +1,12 @@
-package padroescriacao.builder;
+package hamburgueria.hamburguer;
 
-import padroesestruturais.composite.ItemCardapio;
-import padroesestruturais.bridge.Proteina;
+import hamburgueria.hamburguer.proteina.Proteina;
+
+import hamburgueria.cardapio.MenuItem;
 
 public class ReceitaHamburguer {
 
-    public ItemCardapio montarHamburguer(String nome, String pao, Proteina proteina, double precoBase) {
+    public MenuItem montarHamburguer(String nome, String pao, Proteina proteina, double precoBase) {
         return new ChefeCozinha()
                 .comNome(nome)
                 .comPao(pao)
@@ -17,3 +18,4 @@ public class ReceitaHamburguer {
                 .montar();
     }
 }
+

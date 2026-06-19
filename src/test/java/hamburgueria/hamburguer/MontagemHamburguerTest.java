@@ -1,8 +1,9 @@
-package padroescriacao.builder;
+package hamburgueria.hamburguer;
 
-import padroesestruturais.composite.ItemCardapio;
-import padroesestruturais.bridge.AoPonto;
-import padroesestruturais.bridge.ProteinaSmash;
+import hamburgueria.hamburguer.ponto.AoPonto;
+import hamburgueria.hamburguer.proteina.ProteinaSmash;
+
+import hamburgueria.cardapio.MenuItem;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,17 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class MontagemHamburguerTest {
 
     private void imprimirSeparador(String titulo) {
-        System.out.println("\n========================================================");
-        System.out.println(" [BUILDER] " + titulo);
-        System.out.println("========================================================");
     }
 
     @Test
     @DisplayName("Deve montar hambúrguer completo usando builder")
     void deveConstruirHamburguerComBuilder() {
         imprimirSeparador("Montagem Completa");
-        System.out.println();
-        ItemCardapio hamburguer = new ChefeCozinha()
+        MenuItem hamburguer = new ChefeCozinha()
                 .comNome("Smash Premium")
                 .comPao("brioche")
                 .comProteina(new ProteinaSmash(new AoPonto()))
@@ -41,15 +38,13 @@ class MontagemHamburguerTest {
         assertTrue(hamburguer.getDescricao().contains("picles"));
         assertTrue(hamburguer.getDescricao().contains("onion rings"));
         assertTrue(hamburguer.getDescricao().contains("smash burger ao ponto"));
-        System.out.println("Descrição final: " + hamburguer.getDescricao());
     }
 
     @Test
     @DisplayName("Deve montar hambúrguer simples com builder")
     void deveConstruirHamburguerSimples() {
         imprimirSeparador("Montagem Simples");
-        System.out.println();
-        ItemCardapio hamburguer = new ChefeCozinha()
+        MenuItem hamburguer = new ChefeCozinha()
                 .comNome("Smash Simples")
                 .comPao("pão comum")
                 .comProteina(new ProteinaSmash(new AoPonto()))
@@ -58,23 +53,20 @@ class MontagemHamburguerTest {
 
         assertNotNull(hamburguer);
         assertTrue(hamburguer.getDescricao().contains("Smash Simples"));
-        System.out.println("Descrição final: " + hamburguer.getDescricao());
     }
 
     @Test
     @DisplayName("Deve montar hambúrguer usando receita (diretor)")
     void deveMontarHamburguerComReceita() {
         imprimirSeparador("Montagem via Diretor (Receita)");
-        System.out.println();
         ReceitaHamburguer receita = new ReceitaHamburguer();
-        ItemCardapio hamburguer = receita.montarHamburguer(
+        MenuItem hamburguer = receita.montarHamburguer(
                 "Mestre Hambúrguer",
                 "Brioche",
                 new ProteinaSmash(new AoPonto()),
                 20.0
         );
 
-        System.out.println("Valor total calculado: R$ " + String.format("%.2f", hamburguer.getPreco()));
         assertTrue(hamburguer.getDescricao().contains("Mestre Hambúrguer"));
         assertEquals(37.5, hamburguer.getPreco(), 0.01);
     }
@@ -83,8 +75,7 @@ class MontagemHamburguerTest {
     @DisplayName("Deve permitir apenas ingredientes selecionados com builder")
     void devePermitirApenasIngredientesDesejados() {
         imprimirSeparador("Seleção de Ingredientes");
-        System.out.println();
-        ItemCardapio completo = new ChefeCozinha()
+        MenuItem completo = new ChefeCozinha()
                 .comNome("Completo")
                 .comPao("brioche")
                 .comProteina(new ProteinaSmash(new AoPonto()))
@@ -99,16 +90,14 @@ class MontagemHamburguerTest {
         assertTrue(completo.getDescricao().contains("onion rings"));
         assertFalse(completo.getDescricao().contains("bacon"));
         assertFalse(completo.getDescricao().contains("queijo"));
-        System.out.println("Descrição final: " + completo.getDescricao());
     }
 
     @Test
     @DisplayName("Deve calcular preço correto com builder e adicionais")
     void deveCalcularPrecoComBuilderEAdicionais() {
         imprimirSeparador("Cálculo de Preço");
-        System.out.println();
         double precoBase = 10.0;
-        ItemCardapio hamburguer = new ChefeCozinha()
+        MenuItem hamburguer = new ChefeCozinha()
                 .comNome("Preço Test")
                 .comPao("normal")
                 .comProteina(new ProteinaSmash(new AoPonto()))
@@ -118,15 +107,40 @@ class MontagemHamburguerTest {
                 .comOnionRings()
                 .montar();
 
-        System.out.println();
-        System.out.println("Valor base: R$ " + String.format("%.2f", precoBase));
-        System.out.println("Valor da Proteina (Smash): R$ 12.00");
-        System.out.println("Adicional Bacon: R$ 4.00");
-        System.out.println("Adicional Picles: R$ 1.00");
-        System.out.println("Adicional Onion Rings: R$ 3.00");
-        System.out.println("Total calculado: R$ " + String.format("%.2f", hamburguer.getPreco()));
         
         double precoEsperado = 30.0;
         assertEquals(precoEsperado, hamburguer.getPreco(), 0.01);
     }
+
+    @Test
+    @DisplayName("Deve montar hamburguer com molho extra")
+    void testBuilderComMolho() {
+        MenuItem hamburguer = new ChefeCozinha()
+                .comNome("Molho Especial")
+                .comPao("australiano")
+                .comMolho()
+                .comPrecoBase(12.0)
+                .montar();
+
+        assertTrue(hamburguer.getDescricao().contains("molho"));
+        assertEquals(13.5, hamburguer.getPreco(), 0.01);
+    }
+
+    @Test
+    @DisplayName("Deve calcular preco correto com molho extra e bacon")
+    void testBuilderPrecoComMolhoEBacon() {
+        MenuItem hamburguer = new ChefeCozinha()
+                .comNome("Molho e Bacon")
+                .comPao("brioche")
+                .comMolho()
+                .comBacon()
+                .comPrecoBase(10.0)
+                .montar();
+
+        assertTrue(hamburguer.getDescricao().contains("molho"));
+        assertTrue(hamburguer.getDescricao().contains("bacon"));
+        // Preço: 10 (base) + 1.5 (molho) + 4.0 (bacon) = 15.5
+        assertEquals(15.5, hamburguer.getPreco(), 0.01);
+    }
 }
+
