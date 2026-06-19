@@ -1,4 +1,4 @@
-package padroesestruturais.flyweight;
+package hamburgueria.estoque;
 
 public class IngredienteCompartilhado {
     private final String nome;
