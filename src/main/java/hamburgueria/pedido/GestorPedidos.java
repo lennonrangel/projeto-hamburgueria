@@ -1,16 +1,15 @@
-package padroesestruturais.facade;
+package hamburgueria.pedido;
 
-import padroescomportamentais.mediator.Atendente;
-import padroescomportamentais.mediator.Caixa;
-import padroescomportamentais.mediator.CentralHamburgueria;
-import padroescomportamentais.observer.ClienteNotificador;
-import padroescomportamentais.observer.CozinhaNotificador;
-import padroescomportamentais.strategy.ProcessadorPagamento;
-import padroescomportamentais.strategy.FormaPagamento;
-import padroescomportamentais.chainofresponsability.DescontoPedido;
-import padroescomportamentais.state.Pedido;
-import padroescomportamentais.templatemethod.ProcessoPreparo;
-import padroesestruturais.composite.ItemCardapio;
+import hamburgueria.atendimento.Atendente;
+import hamburgueria.atendimento.Caixa;
+import hamburgueria.atendimento.CentralHamburgueria;
+import hamburgueria.notificacao.ClienteNotificador;
+import hamburgueria.notificacao.CozinhaNotificador;
+import hamburgueria.formapagamento.ProcessadorPagamento;
+import hamburgueria.formapagamento.FormaPagamento;
+import hamburgueria.formapagamento.desconto.DescontoPedido;
+import hamburgueria.cozinha.ProcessoPreparo;
+import hamburgueria.cardapio.MenuItem;
 
 public class GestorPedidos {
 
@@ -24,11 +23,11 @@ public class GestorPedidos {
         this.caixa = new Caixa(central);
     }
 
-    public Pedido abrirPedido(ItemCardapio itemCardapio, boolean retiradaBalcao) {
+    public Pedido abrirPedido(MenuItem menuItem, boolean retiradaBalcao) {
         Pedido pedido = new Pedido();
         pedido.adicionarObservador(new ClienteNotificador());
         pedido.adicionarObservador(new CozinhaNotificador());
-        pedido.adicionarItem(itemCardapio);
+        pedido.adicionarItem(menuItem);
 
         if (retiradaBalcao) {
             pedido.marcarRetiradaBalcao();
@@ -56,3 +55,4 @@ public class GestorPedidos {
         return central;
     }
 }
+

@@ -1,15 +1,14 @@
-package padroesestruturais.facade;
+package hamburgueria.pedido;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import padroescomportamentais.chainofresponsability.SemDesconto;
-import padroescomportamentais.state.Pedido;
-import padroescomportamentais.strategy.PagamentoDinheiro;
-import padroescomportamentais.strategy.PagamentoPix;
-import padroescomportamentais.templatemethod.ProcessoPreparoFit;
-import padroescomportamentais.templatemethod.ProcessoPreparoGourmet;
-import padroescriacao.abstractfactory.Hamburguer;
-import padroesestruturais.composite.ItemCardapio;
+import hamburgueria.formapagamento.desconto.SemDesconto;
+import hamburgueria.formapagamento.PagamentoDinheiro;
+import hamburgueria.formapagamento.PagamentoPix;
+import hamburgueria.cozinha.ProcessoPreparoFit;
+import hamburgueria.cozinha.ProcessoPreparoGourmet;
+import hamburgueria.hamburguer.Hamburguer;
+import hamburgueria.cardapio.MenuItem;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,9 +17,6 @@ public class GestorPedidosTest {
     private GestorPedidos sistema;
 
     private void imprimirSeparador(String titulo) {
-        System.out.println("\n========================================================");
-        System.out.println(" [FACADE] " + titulo);
-        System.out.println("========================================================");
     }
 
     private void setup() {
@@ -32,10 +28,8 @@ public class GestorPedidosTest {
     void deveAbrirPedidoViaFacade() {
         imprimirSeparador("Abertura de Pedido Simplicada");
         setup();
-        System.out.println();
-        ItemCardapio lanche = new Hamburguer("Burger Clássico", 20.0);
+        MenuItem lanche = new Hamburguer("Burger Clássico", 20.0);
         Pedido pedido = sistema.abrirPedido(lanche, false);
-        System.out.println("Pedido criado: " + pedido.getCodigo() + " - Estado: " + pedido.getEstadoAtual());
         assertNotNull(pedido);
         assertEquals("Em preparo", pedido.getEstadoAtual());
     }
@@ -45,8 +39,7 @@ public class GestorPedidosTest {
     void devePrepararEPagarViaFacade() {
         imprimirSeparador("Fluxo de Preparo e Pagamento");
         setup();
-        System.out.println();
-        ItemCardapio lanche = new Hamburguer("Burger Fit", 25.0);
+        MenuItem lanche = new Hamburguer("Burger Fit", 25.0);
         Pedido pedido = sistema.abrirPedido(lanche, false);
         double valorFinal = sistema.prepararEPagar(
                 pedido,
@@ -54,7 +47,6 @@ public class GestorPedidosTest {
                 new PagamentoDinheiro(),
                 new SemDesconto()
         );
-        System.out.println("Valor Final Pago: R$ " + String.format("%.2f", valorFinal));
         assertEquals("Pronto", pedido.getEstadoAtual());
         assertTrue(valorFinal > 0);
     }
@@ -64,8 +56,7 @@ public class GestorPedidosTest {
     void deveSimplificarFluxoCompletoViaFacade() {
         imprimirSeparador("Fluxo Completo de Operação");
         setup();
-        System.out.println();
-        ItemCardapio lanche = new Hamburguer("Burger Gourmet", 35.0);
+        MenuItem lanche = new Hamburguer("Burger Gourmet", 35.0);
         Pedido pedido = sistema.abrirPedido(lanche, true);
         assertNotNull(pedido);
         assertTrue(pedido.isRetiradaBalcao());
@@ -75,7 +66,36 @@ public class GestorPedidosTest {
                 new PagamentoPix(),
                 new SemDesconto()
         );
-        System.out.println("Fluxo finalizado. Valor: R$ " + String.format("%.2f", valor));
         assertTrue(valor > 0);
     }
+
+    @Test
+    @DisplayName("Deve registrar o pedido na central do gestor ao abrir")
+    void testGestorPedidosRegistroNaCentral() {
+        setup();
+        MenuItem lanche = new Hamburguer("Classico", 20.0);
+        Pedido pedido = sistema.abrirPedido(lanche, false);
+        assertEquals(1, sistema.getCentral().getPedidos().size());
+        assertTrue(sistema.getCentral().getPedidos().contains(pedido));
+    }
+
+    @Test
+    @DisplayName("Deve aplicar desconto do pedido grande e processar pagamento via facade")
+    void testGestorPedidosFluxoComDesconto() {
+        setup();
+        MenuItem lanche = new Hamburguer("Mega Burger", 100.0);
+        Pedido pedido = sistema.abrirPedido(lanche, false);
+        
+        // Desconto de Pedido Grande (10%) + Sem desconto no pagamento (Pix)
+        // Preço final deve ser 90.0
+        double valorFinal = sistema.prepararEPagar(
+                pedido,
+                new ProcessoPreparoFit(),
+                new PagamentoPix(),
+                new hamburgueria.formapagamento.desconto.DescontoPedidoGrande()
+        );
+        
+        assertEquals(90.0, valorFinal, 0.01);
+    }
 }
+
