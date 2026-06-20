@@ -1,9 +1,12 @@
-package padroescomportamentais.state;
+package hamburgueria.pedido;
 
-import padroesestruturais.composite.ItemCardapio;
-import padroescomportamentais.observer.MonitorPedido;
+import hamburgueria.pedido.estado.EstadoPedido;
+import hamburgueria.pedido.estado.PedidoRecebido;
+import hamburgueria.pedido.historico.RegistroPedido;
+import hamburgueria.pedido.relatorio.RelatorioPedido;
 
-import padroescriacao.singleton.GeradorCodigoPedido;
+import hamburgueria.cardapio.MenuItem;
+import hamburgueria.notificacao.MonitorPedido;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +15,7 @@ import java.util.List;
 public class Pedido {
 
     private final String codigo;
-    private final List<ItemCardapio> itens = new ArrayList<>();
+    private final List<MenuItem> itens = new ArrayList<>();
     private final List<MonitorPedido> observadores = new ArrayList<>();
     private EstadoPedido estado;
     private boolean retiradaBalcao;
@@ -22,11 +25,11 @@ public class Pedido {
         this.estado = new PedidoRecebido();
     }
 
-    public void adicionarItem(ItemCardapio item) {
+    public void adicionarItem(MenuItem item) {
         itens.add(item);
     }
 
-    public void removerItem(ItemCardapio item) {
+    public void removerItem(MenuItem item) {
         itens.remove(item);
     }
 
@@ -43,7 +46,6 @@ public class Pedido {
     }
 
     public void setEstado(EstadoPedido estado) {
-        System.out.println("Pedido " + codigo + " mudando para o estado: " + estado.getNome());
         this.estado = estado;
         notificarObservadores();
     }
@@ -61,12 +63,12 @@ public class Pedido {
     }
 
     public double calcularTotal() {
-        return itens.stream().mapToDouble(ItemCardapio::getPreco).sum();
+        return itens.stream().mapToDouble(MenuItem::getPreco).sum();
     }
 
     public String getResumo() {
         StringBuilder resumo = new StringBuilder();
-        for (ItemCardapio item : itens) {
+        for (MenuItem item : itens) {
             resumo.append(item.getDescricao()).append(" - R$ ").append(String.format("%.2f", item.getPreco())).append(System.lineSeparator());
         }
         return resumo.toString();
@@ -93,7 +95,19 @@ public class Pedido {
         notificarObservadores();
     }
 
-    public List<ItemCardapio> getItens() {
+    public RegistroPedido salvarEstado() {
+        return new RegistroPedido(this.estado);
+    }
+
+    public void restaurar(RegistroPedido registro) {
+        restaurarEstado(registro.getEstado());
+    }
+
+    public String aceitar(RelatorioPedido visitante) {
+        return visitante.visitarPedido(this);
+    }
+
+    public List<MenuItem> getItens() {
         return Collections.unmodifiableList(itens);
     }
 
@@ -103,3 +117,4 @@ public class Pedido {
         }
     }
 }
+

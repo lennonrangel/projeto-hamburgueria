@@ -1,10 +1,12 @@
-package padroescomportamentais.state;
+package hamburgueria.pedido.estado;
 
-public class PedidoPronto implements EstadoPedido {
+import hamburgueria.pedido.Pedido;
+
+public class PedidoEmPreparo implements EstadoPedido {
 
     @Override
     public void avancar(Pedido pedido) {
-        pedido.setEstado(new PedidoEmRota());
+        pedido.setEstado(new PedidoPronto());
     }
 
     @Override
@@ -14,6 +16,6 @@ public class PedidoPronto implements EstadoPedido {
 
     @Override
     public String getNome() {
-        return "Pronto";
+        return "Em preparo";
     }
 }

@@ -1,4 +1,4 @@
-package padroescomportamentais.state;
+package hamburgueria.pedido;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -6,16 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Teste do Padrão State - Estados do Pedido")
 class PedidoTest {
     private Pedido pedido;
 
     private void imprimirSeparador(String titulo) {
-        System.out.println("\n========================================================");
-        System.out.println(" [STATE] " + titulo);
-        System.out.println("========================================================");
-        System.out.println();
     }
 
     @BeforeEach
@@ -51,5 +48,32 @@ class PedidoTest {
         pedido.avancar();
         pedido.cancelar();
         assertEquals("Cancelado", pedido.getEstadoAtual());
+    }
+
+    @Test
+    @DisplayName("Pedido cancelado não deve permitir avançar")
+    void testPedidoCanceladoNaoPodeAvancar() {
+        pedido.cancelar();
+        assertThrows(IllegalStateException.class, () -> pedido.avancar());
+    }
+
+    @Test
+    @DisplayName("Pedido entregue não deve permitir avançar")
+    void testPedidoEntregueNaoPodeAvancar() {
+        pedido.avancar(); 
+        pedido.avancar(); 
+        pedido.avancar(); 
+        pedido.avancar(); 
+        assertThrows(IllegalStateException.class, () -> pedido.avancar());
+    }
+
+    @Test
+    @DisplayName("Pedido entregue não deve permitir cancelamento")
+    void testPedidoEntregueNaoPodeCancelar() {
+        pedido.avancar(); 
+        pedido.avancar(); 
+        pedido.avancar(); 
+        pedido.avancar(); 
+        assertThrows(IllegalStateException.class, () -> pedido.cancelar());
     }
 }
