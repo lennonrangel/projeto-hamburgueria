@@ -1,6 +1,6 @@
-package padroesestruturais.proxy;
+package hamburgueria.financeiro;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 public class RelatorioFinanceiroProxy implements RelatorioFinanceiro {
 
