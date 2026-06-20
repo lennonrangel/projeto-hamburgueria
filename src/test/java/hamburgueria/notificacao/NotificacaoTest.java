@@ -1,24 +1,19 @@
-package padroescomportamentais.observer;
+package hamburgueria.notificacao;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Teste do Padrão Observer - Notificações")
 class NotificacaoTest {
     private Pedido pedido;
 
     private void imprimirSeparador(String titulo) {
-        System.out.println("\n========================================================");
-        System.out.println(" [OBSERVER] " + titulo);
-        System.out.println("========================================================");
-        System.out.println();
     }
 
     @BeforeEach
@@ -60,5 +55,27 @@ class NotificacaoTest {
         pedido.adicionarObservador(observador);
         pedido.avancar();
         assertSame(pedido, pedidoRecebido[0]);
+    }
+
+    @Test
+    @DisplayName("Deve notificar observadores ao cancelar pedido")
+    void deveNotificarObservadoresAoCancelarPedido() {
+        final int[] notificacoes = {0};
+        MonitorPedido observador = p -> notificacoes[0]++;
+        pedido.adicionarObservador(observador);
+        pedido.cancelar();
+        assertEquals(1, notificacoes[0]);
+    }
+
+    @Test
+    @DisplayName("Deve executar notificadores concretos sem erro")
+    void deveExecutarNotificadoresConcretos() {
+        MonitorPedido clienteObs = new ClienteNotificador();
+        MonitorPedido cozinhaObs = new CozinhaNotificador();
+
+        pedido.adicionarObservador(clienteObs);
+        pedido.adicionarObservador(cozinhaObs);
+
+        assertDoesNotThrow(() -> pedido.avancar());
     }
 }
