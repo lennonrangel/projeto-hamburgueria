@@ -1,6 +1,6 @@
-package padroescomportamentais.mediator;
+package hamburgueria.atendimento;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,18 +13,15 @@ public class CentralHamburgueria implements CentralPedidos {
     @Override
     public void registrarPedido(Pedido pedido) {
         pedidos.add(pedido);
-        System.out.println("Pedido " + pedido.getCodigo() + " registrado na central.");
     }
 
     @Override
     public void enviarParaCozinha(Pedido pedido) {
-        System.out.println("Central enviou o pedido " + pedido.getCodigo() + " para a cozinha.");
         pedido.avancar();
     }
 
     @Override
     public void confirmarPagamento(Pedido pedido, double valorPago) {
-        System.out.println("Pagamento do pedido " + pedido.getCodigo() + " confirmado: R$ " + String.format("%.2f", valorPago));
     }
 
     public List<Pedido> getPedidos() {

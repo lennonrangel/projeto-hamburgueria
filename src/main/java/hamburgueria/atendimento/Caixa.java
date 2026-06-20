@@ -1,6 +1,6 @@
-package padroescomportamentais.mediator;
+package hamburgueria.atendimento;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 public class Caixa {
 
@@ -11,7 +11,6 @@ public class Caixa {
     }
 
     public void finalizarPagamento(Pedido pedido, double valorPago) {
-        System.out.println("Caixa processando pagamento do pedido " + pedido.getCodigo());
         central.confirmarPagamento(pedido, valorPago);
     }
 }

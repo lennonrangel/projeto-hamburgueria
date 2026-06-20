@@ -1,6 +1,6 @@
-package padroescomportamentais.mediator;
+package hamburgueria.atendimento;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 public class Atendente {
 
@@ -11,7 +11,6 @@ public class Atendente {
     }
 
     public void receberPedido(Pedido pedido) {
-        System.out.println("Atendente recebendo pedido " + pedido.getCodigo());
         central.registrarPedido(pedido);
         central.enviarParaCozinha(pedido);
     }

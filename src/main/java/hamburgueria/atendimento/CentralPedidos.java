@@ -1,6 +1,6 @@
-package padroescomportamentais.mediator;
+package hamburgueria.atendimento;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 public interface CentralPedidos {
     void registrarPedido(Pedido pedido);
