@@ -1,12 +1,11 @@
-package padroescomportamentais.visitor;
+package hamburgueria.pedido.relatorio;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 public class ImpressorResumo implements RelatorioPedido {
     @Override
     public String visitarPedido(Pedido pedido) {
         String resultado = "Resumo do pedido " + pedido.getCodigo() + ": " + pedido.getResumo();
-        System.out.println(resultado);
         return resultado;
     }
 }
