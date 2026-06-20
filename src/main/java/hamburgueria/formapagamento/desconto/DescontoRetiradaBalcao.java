@@ -1,13 +1,12 @@
-package padroescomportamentais.chainofresponsability;
+package hamburgueria.formapagamento.desconto;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 public class DescontoRetiradaBalcao extends DescontoPedido {
 
     @Override
     protected double calcular(Pedido pedido, double valor) {
         if (pedido.isRetiradaBalcao()) {
-            System.out.println("Aplicando desconto de 5% para retirada no balcao.");
             return valor * 0.95;
         }
         return valor;

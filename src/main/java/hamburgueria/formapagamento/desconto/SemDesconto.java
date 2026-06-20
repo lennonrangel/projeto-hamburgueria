@@ -1,6 +1,6 @@
-package padroescomportamentais.chainofresponsability;
+package hamburgueria.formapagamento.desconto;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 public class SemDesconto extends DescontoPedido {
 
