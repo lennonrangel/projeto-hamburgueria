@@ -1,10 +1,9 @@
-package padroescomportamentais.strategy;
+package hamburgueria.formapagamento;
 
 public class PagamentoPix implements FormaPagamento {
 
     @Override
     public double calcularValorFinal(double valor) {
-        System.out.println("Processando pagamento via Pix: R$ " + valor);
         return valor;
     }
 

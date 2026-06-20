@@ -1,10 +1,9 @@
-package padroescomportamentais.strategy;
+package hamburgueria.formapagamento;
 
 public class PagamentoCartao implements FormaPagamento {
 
     @Override
     public double calcularValorFinal(double valor) {
-        System.out.println("Processando pagamento em cartão: R$ " + valor);
         return valor;
     }
 

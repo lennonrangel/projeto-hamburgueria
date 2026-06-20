@@ -1,8 +1,9 @@
-package padroescomportamentais.strategy;
+package hamburgueria.formapagamento;
 
-import padroescomportamentais.chainofresponsability.DescontoPedido;
-import padroescomportamentais.chainofresponsability.SemDesconto;
-import padroescomportamentais.state.Pedido;
+import hamburgueria.formapagamento.desconto.DescontoPedido;
+import hamburgueria.formapagamento.desconto.SemDesconto;
+
+import hamburgueria.pedido.Pedido;
 
 public class ProcessadorPagamento {
 

@@ -1,7 +1,7 @@
-package padroescomportamentais.strategy;
+package hamburgueria.formapagamento;
 
-import padroescriacao.abstractfactory.ClassicoFactory;
-import padroescomportamentais.state.Pedido;
+import hamburgueria.linhaproduto.ClassicoFactory;
+import hamburgueria.pedido.Pedido;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,10 +16,6 @@ class PagamentoTest {
     private double valorPedido;
 
     private void imprimirSeparador(String titulo) {
-        System.out.println("\n========================================================");
-        System.out.println(" [STRATEGY] " + titulo);
-        System.out.println("========================================================");
-        System.out.println();
     }
 
     @BeforeEach
@@ -55,5 +51,28 @@ class PagamentoTest {
         ProcessadorPagamento processador = new ProcessadorPagamento(formaPagamento);
         double valorPago = processador.pagar(pedido);
         assertEquals(valorPedido, valorPago, 0.01);
+    }
+
+    @Test
+    @DisplayName("Deve permitir alterar a forma de pagamento dinamicamente")
+    void testAlterarFormaPagamentoDinamico() {
+        ProcessadorPagamento processador = new ProcessadorPagamento(new PagamentoCartao());
+        assertEquals(valorPedido, processador.pagar(pedido), 0.01);
+
+        processador.setFormaPagamento(new PagamentoDinheiro());
+        assertEquals(valorPedido * 0.90, processador.pagar(pedido), 0.01);
+    }
+
+    @Test
+    @DisplayName("Deve obter a descricao correta da forma de pagamento")
+    void testGetDescricaoPagamento() {
+        ProcessadorPagamento processador = new ProcessadorPagamento(new PagamentoDinheiro());
+        assertEquals("Dinheiro com 10% de desconto", processador.getDescricaoPagamento());
+
+        processador.setFormaPagamento(new PagamentoCartao());
+        assertEquals("Cartão sem desconto", processador.getDescricaoPagamento());
+
+        processador.setFormaPagamento(new PagamentoPix());
+        assertEquals("Pix sem desconto", processador.getDescricaoPagamento());
     }
 }
