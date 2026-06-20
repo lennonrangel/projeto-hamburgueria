@@ -1,6 +1,6 @@
-package padroescomportamentais.memento;
+package hamburgueria.pedido.historico;
 
-import padroescomportamentais.state.EstadoPedido;
+import hamburgueria.pedido.estado.EstadoPedido;
 
 public class RegistroPedido {
     private final EstadoPedido estado;
