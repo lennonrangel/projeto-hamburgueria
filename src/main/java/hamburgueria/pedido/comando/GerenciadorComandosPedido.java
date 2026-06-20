@@ -1,4 +1,4 @@
-package padroescomportamentais.command;
+package hamburgueria.pedido.comando;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

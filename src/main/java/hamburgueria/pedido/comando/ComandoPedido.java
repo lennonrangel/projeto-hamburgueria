@@ -1,4 +1,4 @@
-package padroescomportamentais.command;
+package hamburgueria.pedido.comando;
 
 public interface ComandoPedido {
     void executar();
