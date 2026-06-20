@@ -1,6 +1,8 @@
-package padroescomportamentais.interpreter;
+package hamburgueria.promocao;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.promocao.condicao.ExpressaoPedido;
+
+import hamburgueria.pedido.Pedido;
 
 public class CupomDesconto {
 
@@ -16,11 +18,13 @@ public class CupomDesconto {
 
     public double aplicar(Pedido pedido, double valorBase) {
         if (regra.interpretar(pedido)) {
-            System.out.println("Cupom aplicado: " + nome);
             return valorBase * (1.0 - percentualDesconto);
         }
 
-        System.out.println("Cupom nao aplicado: " + nome);
         return valorBase;
+    }
+
+    public String getNome() {
+        return nome;
     }
 }

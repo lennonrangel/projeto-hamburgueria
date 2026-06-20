@@ -1,6 +1,6 @@
-package padroescomportamentais.interpreter;
+package hamburgueria.promocao.condicao;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 public class ExpressaoRetiradaBalcao implements ExpressaoPedido {
 
