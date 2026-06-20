@@ -1,6 +1,6 @@
-package padroescomportamentais.templatemethod;
+package hamburgueria.cozinha;
 
-import padroescomportamentais.state.Pedido;
+import hamburgueria.pedido.Pedido;
 
 public abstract class ProcessoPreparo {
 
@@ -12,13 +12,11 @@ public abstract class ProcessoPreparo {
     }
 
     protected void separarIngredientes(Pedido pedido) {
-        System.out.println("Separando ingredientes do pedido " + pedido.getCodigo() + ".");
     }
 
     protected abstract void prepararHamburguer(Pedido pedido);
 
     protected void embalarPedido(Pedido pedido) {
-        System.out.println("Embalando pedido " + pedido.getCodigo() + ".");
     }
 
     protected void finalizar(Pedido pedido) {
