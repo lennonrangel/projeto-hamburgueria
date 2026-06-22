@@ -23,9 +23,9 @@ O projeto utiliza **23 padrões de projeto** do GoF (Gang of Four):
 | Padrão | Descrição no Projeto |
 |---|---|
 | **Bridge** | Separa a abstração `Proteina` de sua implementação `GrauCoccao`, permitindo que ambas variem de forma independente. |
-| **Adapter** | O `IngredientePesadoAdapter` adapta um ingrediente externo vendido por peso para a interface interna `ItemCardapio`. |
-| **Decorator** | O `Complemento` permite adicionar funcionalidades (ingredientes extras como `Bacon`, `Molho`, `Salada`, `OnionRings`, `Picles`) a um `ItemCardapio` de forma dinâmica. |
-| **Composite** | A classe `RefeicaoCompleta` permite tratar itens individuais e grupos de itens (combos) de forma uniforme, ambos implementando a interface `ItemCardapio`. |
+| **Adapter** | O `IngredienteGranelAdapter` adapta um ingrediente externo vendido a granel (por peso) para a interface interna `MenuItem`. |
+| **Decorator** | O `Complemento` permite adicionar funcionalidades (ingredientes extras como `Bacon`, `Molho`, `Salada`, `OnionRings`, `Picles`) a um `MenuItem` de forma dinâmica. |
+| **Composite** | A classe `RefeicaoCompleta` permite tratar itens individuais e grupos de itens (combos) de forma uniforme, ambos implementando a interface `MenuItem`. |
 | **Facade** | O `GestorPedidos` oferece uma interface simplificada para as funcionalidades complexas do sistema, como abrir pedidos e processar pagamentos. |
 | **Flyweight** | A `IngredienteFactory` reutiliza instâncias compartilhadas de ingredientes recorrentes, separando dados intrínsecos do ingrediente do estado externo, como quantidade em estoque. |
 | **Proxy** | O `RelatorioFinanceiroProxy` controla o acesso ao relatório financeiro, liberando a consulta somente para usuários com perfil de gerente. |
@@ -43,30 +43,38 @@ O projeto utiliza **23 padrões de projeto** do GoF (Gang of Four):
 | **State** | O estado do pedido (`EstadoPedido`) é gerenciado de forma que o comportamento do objeto mude conforme seu estado transita (ex: `PedidoRecebido` para `PedidoEmPreparo`). |
 | **Template Method** | A classe `ProcessoPreparo` define o esqueleto do algoritmo de preparo, permitindo que subclasses customizem etapas específicas (como `prepararHamburguer`). |
 | **Memento** | O `HistoricoPedido` e `RegistroPedido` permitem salvar e restaurar estados anteriores de um `Pedido`, possibilitando um histórico de estados. |
-| **Visitor** | Permite adicionar novas operações a um `Pedido` (como `CalculadoraTotal` e `ImpressorResumo`) sem alterar sua classe. |
+| **Visitor** | Permite adicionar novas operações a um Pedido (como `CalcularTotal` e `ImpressorResumo`) sem alterar sua classe. |
 | **Iterator** | O `Cardapio` cria um `IteradorCardapio` para percorrer itens disponíveis sem expor diretamente a lógica de navegação da coleção. |
 
 ## Diagrama de Estado
 O fluxo de estados de um pedido é representado pelo seguinte diagrama:
 
 <div align="center">
-  <img width="700" height="878" alt="Image" src="https://github.com/user-attachments/assets/cf2e57f1-13c4-4638-89cb-adec6d5743ad" />
+  <img width="450" height="578" alt="Image" src="https://github.com/user-attachments/assets/cf2e57f1-13c4-4638-89cb-adec6d5743ad" />
 </div>
   
 ## Diagrama de Classes
 
 Ilustra a arquitetura do sistema, destacando a integração dos 19 padrões de projeto e as relações de dependência entre as fábricas, produtos e o processamento de pedidos.
 
-<img width="7089" height="6036" alt="Image" src="https://github.com/user-attachments/assets/58b1be83-acd6-4afc-bc4e-e1acea40199e" />
+<img width="6283" height="6148" alt="Image" src="https://github.com/user-attachments/assets/7956be50-79f8-415b-beb7-008d9215a3d0" />
 
 ## Estrutura do Projeto
 
-O código está organizado nos seguintes pacotes:
+O código está organizado por **domínios de negócio**, contendo subpastas lógicas para melhor organização:
 
-- `hamburgueria`: Classe principal de execução.
-- `padroescriacao`: Implementações de Abstract Factory, Builder, Factory Method, Prototype e Singleton.
-- `padroesestruturais`: Implementações de Adapter, Bridge, Composite, Decorator, Facade, Flyweight e Proxy.
-- `padroescomportamentais`: Implementações de Chain of Responsibility, Command, Interpreter, Iterator, Mediator, Memento, Observer, State, Strategy, Template Method e Visitor.
+* **`hamburgueria`**: Classe principal executável.
+* **`hamburgueria.pedido`**: Controle e estados de pedidos, contendo subpacotes para comandos (`comando`), estados (`estado`), histórico/backups (`historico`) e relatórios baseados em Visitor (`relatorio`).
+* **`hamburgueria.hamburguer`**: Construtor base do hambúrguer e receitas (Builder, Prototype), contendo subpacotes para pontos da carne (`ponto`) e tipos de proteínas (`proteina`).
+* **`hamburgueria.linhaproduto`**: Fábricas para as linhas de hambúrgueres (Abstract Factory), contendo subpacote para criação de combos (`combo` usando Factory Method).
+* **`hamburgueria.formapagamento`**: Formas de pagamento (Strategy), contendo subpacote para aplicação da corrente de descontos (`desconto`).
+* **`hamburgueria.cardapio`**: Itens de cardápio e refeições completas (Composite, Iterator), contendo subpacote para ingredientes extras e acompanhamentos adicionais (`adicional` com Decorators).
+* **`hamburgueria.estoque`**: Reutilização de ingredientes (Flyweight) e adaptador de balança (Adapter).
+* **`hamburgueria.cozinha`**: Algoritmo do processo de preparo (Template Method).
+* **`hamburgueria.atendimento`**: Central de intermediação entre atendentes e caixas (Mediator).
+* **`hamburgueria.promocao`**: Lógica de cupons, contendo subpacote para interpretação de condições (`condicao` com Interpreter).
+* **`hamburgueria.financeiro`**: Emissão protegida de relatórios financeiros (Proxy).
+* **`hamburgueria.notificacao`**: Alertas para a cozinha e cliente final (Observer).
 
 ## Como Executar
 
